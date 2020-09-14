@@ -1,0 +1,21 @@
+{
+    "product": "Produto",
+    "products": "Produtos",
+    "add": "Adicionar",
+    "delete": "Excluir",
+    "ok": "ok",
+    "save": "Salvar",
+    "success": "Sucesso",
+    "yes": "Sim",
+    "no": "Não",
+    "savedSuccessfully": "Salvo com sucesso!",
+    "failSaveData": "Os dados não puderam ser salvos.",
+    "failLoadData": "falha ao carregar os dados",
+    "tryAgain": "Tente novamente",
+    "noData": "Não existem dados para serem exibidos.",
+    "mandatoryField": "O campo é obrigatório.",
+    "confirmDeletion": "Confirma a exclusão? Esta ação não pode ser desfeita.",
+    "productPageName": "Nome",
+    "productPageBrand": "Marca",
+    "productPageImageUrl": "Url da Imagem"
+}

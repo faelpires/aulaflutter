@@ -1,0 +1,21 @@
+{
+    "product": "Product",
+    "products": "Products",
+    "add": "Add",
+    "delete": "Delete",
+    "ok": "ok",
+    "save": "Save",
+    "success": "Success",
+    "yes": "Yes",
+    "no": "No",
+    "savedSuccessfully": "Saved successfully!",
+    "failSaveData": "The data could not be saved.",
+    "failLoadData": "Failed to load data",
+    "tryAgain": "Try Again",
+    "noData": "There is no data to display",
+    "mandatoryField": "The field is mandatory.",
+    "confirmDeletion": "Confirm the deletion? This action cannot be undone.",
+    "productPageName": "Name",
+    "productPageBrand": "Brand",
+    "productPageImageUrl": "Image Url"
+}

@@ -1,3 +1,4 @@
+import 'package:aula5/app/shared/models/category_model.dart';
 import 'package:aula5/app/shared/widgets/center_text.dart';
 import 'package:aula5/app/shared/widgets/loading.dart';
 import 'package:aula5/generated/l10n.dart';
@@ -63,9 +64,33 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
     );
   }
 
+  List<DropdownMenuItem<CategoryModel>> _getCategories(
+      List<CategoryModel> categories) {
+    if (categories == null) return [];
+
+    return categories
+        .map(
+          (e) => DropdownMenuItem<CategoryModel>(
+            value: e,
+            child: Text(e.name),
+          ),
+        )
+        .toList()
+          ..insert(
+            0,
+            DropdownMenuItem<CategoryModel>(
+              value: null,
+              child: Text(
+                S.of(context).all,
+              ),
+            ),
+          );
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    controller.loadList();
 
     return Scaffold(
       appBar: AppBar(
@@ -80,65 +105,84 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
           builder: (context) {
             if (controller.isInAsyncCall) return Loading();
 
-            Widget result = Container();
-
             switch (controller.model.status) {
               case FutureStatus.pending:
-                result = Loading();
+                return Loading();
                 break;
               case FutureStatus.fulfilled:
                 if (controller.model.value != null) {
-                  result = RefreshIndicator(
-                    onRefresh: () async {
-                      controller.loadList();
-                    },
-                    child: Scrollbar(
-                      child: ListView.separated(
-                        padding: EdgeInsets.only(bottom: 76),
-                        separatorBuilder: (_, __) => Divider(),
-                        itemCount: controller.model.value.length,
-                        itemBuilder: (context, index) {
-                          var data = controller.model.value[index];
+                  return Column(
+                    children: [
+                      controller.categories != null
+                          ? Container(
+                              height: 50,
+                              alignment: Alignment.centerRight,
+                              child: DropdownButton(
+                                value: controller.category,
+                                items: _getCategories(
+                                  controller.categories,
+                                ),
+                                onChanged: (value) =>
+                                    controller.setCategory(value),
+                              ),
+                            )
+                          : Container(),
+                      Expanded(
+                        child: RefreshIndicator(
+                          onRefresh: () async {
+                            controller.loadList();
+                          },
+                          child: Scrollbar(
+                            child: ListView.separated(
+                              padding: EdgeInsets.only(bottom: 76),
+                              separatorBuilder: (_, __) => Divider(),
+                              itemCount: controller.model.value.length,
+                              itemBuilder: (context, index) {
+                                var data = controller.model.value[index];
 
-                          return ListTile(
-                            leading: data.url != null && data.url.isNotEmpty
-                                ? Image.network(
-                                    data.url,
-                                  )
-                                : Image.asset(
-                                    'assets/images/phone_mockup.png',
+                                return ListTile(
+                                  leading:
+                                      data.url != null && data.url.isNotEmpty
+                                          ? Image.network(
+                                              data.url,
+                                            )
+                                          : Image.asset(
+                                              'assets/images/phone_mockup.png',
+                                            ),
+                                  title: Text(
+                                    data.name,
                                   ),
-                            title: Text(
-                              data.name,
+                                  subtitle: Text(
+                                    data.brand,
+                                  ),
+                                  trailing: IconButton(
+                                    tooltip: S.of(context).delete,
+                                    icon: Icon(
+                                      Icons.delete_forever,
+                                    ),
+                                    onPressed: () => _delete(
+                                      data.id,
+                                    ),
+                                  ),
+                                  onTap: () => _edit(
+                                    data.id,
+                                  ),
+                                );
+                              },
                             ),
-                            subtitle: Text(
-                              data.brand,
-                            ),
-                            trailing: IconButton(
-                              tooltip: S.of(context).delete,
-                              icon: Icon(
-                                Icons.delete_forever,
-                              ),
-                              onPressed: () => _delete(
-                                data.id,
-                              ),
-                            ),
-                            onTap: () => _edit(
-                              data.id,
-                            ),
-                          );
-                        },
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   );
                 } else
-                  result = CenterText(
+                  return CenterText(
                     S.of(context).noData,
                   );
-
                 break;
               case FutureStatus.rejected:
-                result = CenterText(
+              default:
+                return CenterText(
                   S.of(context).failLoadData,
                   action: RaisedButton(
                     child: Text(
@@ -149,13 +193,11 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                 );
                 break;
             }
-
-            return result;
           },
         ),
       ),
-      floatingActionButton: Observer(builder: (_) {
-        return Visibility(
+      floatingActionButton: Observer(
+        builder: (_) => Visibility(
           visible: !controller.isInAsyncCall,
           child: FloatingActionButton(
             onPressed: _add,
@@ -164,8 +206,8 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
               Icons.add,
             ),
           ),
-        );
-      }),
+        ),
+      ),
     );
   }
 }

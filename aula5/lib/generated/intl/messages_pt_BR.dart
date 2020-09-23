@@ -22,9 +22,11 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "add" : MessageLookupByLibrary.simpleMessage("Adicionar"),
+    "all" : MessageLookupByLibrary.simpleMessage("Todos"),
+    "category" : MessageLookupByLibrary.simpleMessage("Categoria"),
     "confirmDeletion" : MessageLookupByLibrary.simpleMessage("Confirma a exclusão? Esta ação não pode ser desfeita."),
     "delete" : MessageLookupByLibrary.simpleMessage("Excluir"),
-    "failLoadData" : MessageLookupByLibrary.simpleMessage("falha ao carregar os dados"),
+    "failLoadData" : MessageLookupByLibrary.simpleMessage("Falha ao carregar os dados"),
     "failSaveData" : MessageLookupByLibrary.simpleMessage("Os dados não puderam ser salvos."),
     "mandatoryField" : MessageLookupByLibrary.simpleMessage("O campo é obrigatório."),
     "no" : MessageLookupByLibrary.simpleMessage("Não"),

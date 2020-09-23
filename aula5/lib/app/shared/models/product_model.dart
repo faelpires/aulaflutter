@@ -3,14 +3,22 @@ class ProductModel {
   String name;
   String brand;
   String url;
+  int categoryId;
 
-  ProductModel({this.id, this.name, this.brand, this.url});
+  ProductModel({
+    this.id,
+    this.name,
+    this.brand,
+    this.url,
+    this.categoryId,
+  });
 
   ProductModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     brand = json['brand'];
     url = json['url'];
+    categoryId = json['categoryId'];
   }
 
   Map<String, dynamic> toJson() {
@@ -19,6 +27,7 @@ class ProductModel {
     data['name'] = this.name;
     if (this.brand != null) data['brand'] = this.brand;
     if (this.url != null) data['url'] = this.url;
+    data['categoryId'] = this.categoryId;
 
     return data;
   }

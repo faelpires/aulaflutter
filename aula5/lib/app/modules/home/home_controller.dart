@@ -1,4 +1,6 @@
+import 'package:aula5/app/shared/models/category_model.dart';
 import 'package:aula5/app/shared/models/product_model.dart';
+import 'package:aula5/app/shared/repositories/interfaces/category_repository_interface.dart';
 import 'package:aula5/app/shared/repositories/interfaces/product_repository_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
@@ -10,22 +12,34 @@ part 'home_controller.g.dart';
 class HomeController = _HomeControllerBase with _$HomeController;
 
 abstract class _HomeControllerBase with Store {
-  final IProductRepository repository;
-  _HomeControllerBase({@required this.repository}) {
-    loadList();
-  }
+  @observable
+  List<CategoryModel> categories;
 
+  @observable
+  CategoryModel category;
+
+  final ICategoryRepository categoryRepository;
   @observable
   var isInAsyncCall = false;
 
   @observable
   ObservableFuture<List<ProductModel>> model;
 
+  final IProductRepository repository;
+
+  _HomeControllerBase({
+    @required this.repository,
+    @required this.categoryRepository,
+  });
+
   @action
-  void loadList() {
+  Future loadList() async {
     isInAsyncCall = true;
+
+    if (categories == null) categories = await categoryRepository.getAll();
+
     model = ObservableFuture(
-      repository.getAll().then(
+      repository.getAll(category?.id ?? null).then(
         (value) {
           isInAsyncCall = false;
           return value;
@@ -35,6 +49,12 @@ abstract class _HomeControllerBase with Store {
         throw e;
       }),
     );
+  }
+
+  @action
+  void setCategory(CategoryModel value) {
+    category = value;
+    loadList();
   }
 
   @action

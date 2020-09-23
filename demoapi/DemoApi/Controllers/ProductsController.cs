@@ -12,7 +12,7 @@ namespace DemoApi.Controllers
     {
         private ILogger _logger;
         private IProductsService _service;
-        private int _delay = 1500;
+        private int _delay = 1000;
 
         public ProductsController(ILogger<ProductsController> logger, IProductsService service)
         {
@@ -22,10 +22,10 @@ namespace DemoApi.Controllers
         }
 
         [HttpGet("/api/products")]
-        public ActionResult<List<Product>> GetProducts()
+        public ActionResult<List<Product>> GetProducts([FromQuery]int? category)
         {
             Thread.Sleep(_delay);
-            return _service.GetProducts();
+            return _service.GetProducts(category);
         }
 
         [HttpGet("/api/products/{id}")]

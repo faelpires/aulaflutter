@@ -7,5 +7,6 @@ namespace DemoApi.Models
         public String Name { get; set; }
         public String Brand { get; set; }
         public String Url { get; set; }
+        public int CategoryId {get;set;}
     }
 }

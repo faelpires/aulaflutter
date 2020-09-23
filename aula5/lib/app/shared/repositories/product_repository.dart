@@ -29,8 +29,8 @@ class ProductRepository implements IProductRepository {
   }
 
   @override
-  Future<List<ProductModel>> getAll() async {
-    final response = await dio.get('/products');
+  Future<List<ProductModel>> getAll(int categoryId) async {
+    final response = await dio.get('/products?category=${categoryId ?? ''}');
     return ProductModel.fromMapList(response.data);
   }
 

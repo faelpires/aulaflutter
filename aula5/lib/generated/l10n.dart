@@ -33,26 +33,6 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Product`
-  String get product {
-    return Intl.message(
-      'Product',
-      name: 'product',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Products`
-  String get products {
-    return Intl.message(
-      'Products',
-      name: 'products',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Add`
   String get add {
     return Intl.message(
@@ -63,121 +43,21 @@ class S {
     );
   }
 
-  /// `Delete`
-  String get delete {
+  /// `All`
+  String get all {
     return Intl.message(
-      'Delete',
-      name: 'delete',
+      'All',
+      name: 'all',
       desc: '',
       args: [],
     );
   }
 
-  /// `ok`
-  String get ok {
+  /// `Category`
+  String get category {
     return Intl.message(
-      'ok',
-      name: 'ok',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Save`
-  String get save {
-    return Intl.message(
-      'Save',
-      name: 'save',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Success`
-  String get success {
-    return Intl.message(
-      'Success',
-      name: 'success',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Yes`
-  String get yes {
-    return Intl.message(
-      'Yes',
-      name: 'yes',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `No`
-  String get no {
-    return Intl.message(
-      'No',
-      name: 'no',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Saved successfully!`
-  String get savedSuccessfully {
-    return Intl.message(
-      'Saved successfully!',
-      name: 'savedSuccessfully',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `The data could not be saved.`
-  String get failSaveData {
-    return Intl.message(
-      'The data could not be saved.',
-      name: 'failSaveData',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Failed to load data`
-  String get failLoadData {
-    return Intl.message(
-      'Failed to load data',
-      name: 'failLoadData',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Try Again`
-  String get tryAgain {
-    return Intl.message(
-      'Try Again',
-      name: 'tryAgain',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `There is no data to display`
-  String get noData {
-    return Intl.message(
-      'There is no data to display',
-      name: 'noData',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `The field is mandatory.`
-  String get mandatoryField {
-    return Intl.message(
-      'The field is mandatory.',
-      name: 'mandatoryField',
+      'Category',
+      name: 'category',
       desc: '',
       args: [],
     );
@@ -193,11 +73,81 @@ class S {
     );
   }
 
-  /// `Name`
-  String get productPageName {
+  /// `Delete`
+  String get delete {
     return Intl.message(
-      'Name',
-      name: 'productPageName',
+      'Delete',
+      name: 'delete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to load data`
+  String get failLoadData {
+    return Intl.message(
+      'Failed to load data',
+      name: 'failLoadData',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The data could not be saved.`
+  String get failSaveData {
+    return Intl.message(
+      'The data could not be saved.',
+      name: 'failSaveData',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The field is mandatory.`
+  String get mandatoryField {
+    return Intl.message(
+      'The field is mandatory.',
+      name: 'mandatoryField',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No`
+  String get no {
+    return Intl.message(
+      'No',
+      name: 'no',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There is no data to display`
+  String get noData {
+    return Intl.message(
+      'There is no data to display',
+      name: 'noData',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `ok`
+  String get ok {
+    return Intl.message(
+      'ok',
+      name: 'ok',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Product`
+  String get product {
+    return Intl.message(
+      'Product',
+      name: 'product',
       desc: '',
       args: [],
     );
@@ -218,6 +168,76 @@ class S {
     return Intl.message(
       'Image Url',
       name: 'productPageImageUrl',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name`
+  String get productPageName {
+    return Intl.message(
+      'Name',
+      name: 'productPageName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Products`
+  String get products {
+    return Intl.message(
+      'Products',
+      name: 'products',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save`
+  String get save {
+    return Intl.message(
+      'Save',
+      name: 'save',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Saved successfully!`
+  String get savedSuccessfully {
+    return Intl.message(
+      'Saved successfully!',
+      name: 'savedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Success`
+  String get success {
+    return Intl.message(
+      'Success',
+      name: 'success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Try Again`
+  String get tryAgain {
+    return Intl.message(
+      'Try Again',
+      name: 'tryAgain',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yes`
+  String get yes {
+    return Intl.message(
+      'Yes',
+      name: 'yes',
       desc: '',
       args: [],
     );

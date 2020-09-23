@@ -1,4 +1,3 @@
-import 'package:aula5/app/shared/models/product_model.dart';
 import 'package:aula5/app/shared/utils/default_validation.dart';
 import 'package:aula5/app/shared/widgets/center_text.dart';
 import 'package:aula5/app/shared/widgets/loading.dart';
@@ -6,7 +5,6 @@ import 'package:aula5/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:mobx/mobx.dart';
 import 'product_controller.dart';
 
 class ProductPage extends StatefulWidget {
@@ -19,24 +17,13 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductPageState extends ModularState<ProductPage, ProductController> {
-  var _controllerBrand = TextEditingController();
-  var _controllerName = TextEditingController();
-  var _controllerUrl = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void _save() async {
     if (_formKey.currentState.validate()) {
       try {
-        var model = ProductModel(
-          id: widget.id,
-          name: _controllerName.text,
-          brand: _controllerBrand.text,
-        );
-
-        if (_controllerUrl.text.isNotEmpty) model.url = _controllerUrl.text;
-
-        await controller.save(model);
+        await controller.save();
 
         showDialog(
           context: context,
@@ -78,8 +65,23 @@ class _ProductPageState extends ModularState<ProductPage, ProductController> {
   Widget _buildFormFields() {
     return Column(
       children: [
+        controller.categories != null
+            ? Container(
+                alignment: Alignment.centerRight,
+                child: DropdownButtonFormField(
+                  decoration: InputDecoration(
+                    labelText: S.of(context).category,
+                  ),
+                  validator: validateMandatoryField,
+                  value: controller.model.categoryId,
+                  items: _getCategories(),
+                  onChanged: (value) => controller.model.categoryId = value,
+                ),
+              )
+            : Container(),
         TextFormField(
-          controller: _controllerName,
+          initialValue: controller.model.name,
+          onChanged: (value) => controller.model.name = value,
           decoration: InputDecoration(
             labelText: S.of(context).productPageName,
           ),
@@ -89,7 +91,8 @@ class _ProductPageState extends ModularState<ProductPage, ProductController> {
           height: 16.0,
         ),
         TextFormField(
-          controller: _controllerBrand,
+          initialValue: controller.model.brand,
+          onChanged: (value) => controller.model.brand = value,
           decoration: InputDecoration(
             labelText: S.of(context).productPageBrand,
           ),
@@ -99,7 +102,8 @@ class _ProductPageState extends ModularState<ProductPage, ProductController> {
           height: 16.0,
         ),
         TextFormField(
-          controller: _controllerUrl,
+          initialValue: controller.model.url,
+          onChanged: (value) => controller.model.url = value,
           decoration: InputDecoration(
             labelText: S.of(context).productPageImageUrl,
           ),
@@ -110,42 +114,35 @@ class _ProductPageState extends ModularState<ProductPage, ProductController> {
 
   Widget _buildForm() {
     if (controller.isInAsyncCall) return Loading();
+    if (controller.hasLoadError)
+      return CenterText(
+        S.of(context).failLoadData,
+        action: RaisedButton(
+          child: Text(
+            S.of(context).tryAgain,
+          ),
+          onPressed: () => controller.load(widget.id),
+        ),
+      );
 
-    Widget result = Container();
+    if (controller.model != null)
+      return _buildFormFields();
+    else
+      return CenterText(
+        S.of(context).noData,
+      );
+  }
 
-    if (controller.model != null) {
-      switch (controller.model.status) {
-        case FutureStatus.rejected:
-          result = CenterText(
-            S.of(context).failLoadData,
-          );
-          break;
-        case FutureStatus.pending:
-          result = Loading();
-          break;
-        case FutureStatus.fulfilled:
-          if (controller.model != null) {
-            if (_controllerName.text.isEmpty)
-              _controllerName.text = controller.model.value.name;
-
-            if (_controllerBrand.text.isEmpty)
-              _controllerBrand.text = controller.model.value.brand;
-
-            if (_controllerUrl.text.isEmpty)
-              _controllerUrl.text = controller.model.value.url;
-
-            result = _buildFormFields();
-          } else
-            result = CenterText(
-              S.of(context).noData,
-            );
-
-          break;
-      }
-    } else
-      result = _buildFormFields();
-
-    return result;
+  List<DropdownMenuItem<int>> _getCategories() {
+    if (controller.categories == null) return [];
+    return controller.categories
+        .map(
+          (e) => DropdownMenuItem<int>(
+            value: e.id,
+            child: Text(e.name),
+          ),
+        )
+        .toList();
   }
 
   @override
@@ -158,9 +155,8 @@ class _ProductPageState extends ModularState<ProductPage, ProductController> {
       appBar: AppBar(
         title: Text(S.of(context).product),
         leading: Observer(
-          builder: (_) {
-            return !controller.isInAsyncCall ? BackButton() : Container();
-          },
+          builder: (_) =>
+              !controller.isInAsyncCall ? BackButton() : Container(),
         ),
       ),
       body: Padding(
@@ -181,7 +177,7 @@ class _ProductPageState extends ModularState<ProductPage, ProductController> {
       floatingActionButton: Observer(
         builder: (_) {
           return Visibility(
-            visible: !controller.isInAsyncCall,
+            visible: !controller.isInAsyncCall && !controller.hasLoadError,
             child: FloatingActionButton(
               onPressed: _save,
               tooltip: S.of(context).save,

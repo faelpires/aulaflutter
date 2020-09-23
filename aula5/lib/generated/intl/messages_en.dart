@@ -22,6 +22,8 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "add" : MessageLookupByLibrary.simpleMessage("Add"),
+    "all" : MessageLookupByLibrary.simpleMessage("All"),
+    "category" : MessageLookupByLibrary.simpleMessage("Category"),
     "confirmDeletion" : MessageLookupByLibrary.simpleMessage("Confirm the deletion? This action cannot be undone."),
     "delete" : MessageLookupByLibrary.simpleMessage("Delete"),
     "failLoadData" : MessageLookupByLibrary.simpleMessage("Failed to load data"),

@@ -90,7 +90,8 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    controller.loadList();
+
+    if (controller.model == null) controller.loadList();
 
     return Scaffold(
       appBar: AppBar(
